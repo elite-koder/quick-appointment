@@ -19,10 +19,6 @@ class Slot(models.Model):
         start_time = timezone.make_aware(start_time, timezone=timezone.get_default_timezone())
         end_time = timezone.make_aware(end_time, timezone=timezone.get_default_timezone())
         with transaction.atomic():
-            print(owner, owner.id, type(owner))
-            for o in cls.objects.filter(owner=owner).values_list("start_time","end_time"):
-                print(o)
-            print(cls.objects.filter(owner_id=owner.id, start_time__lt=end_time, end_time__gt=start_time).exists())
             if cls.objects.filter(owner_id=owner.id, start_time__lt=end_time, end_time__gt=start_time).exists():
                 raise ValueError("overlapping slot found")
             cls.objects.create(start_time=start_time, end_time=end_time, capacity=capacity, free_capacity=capacity, owner=owner)

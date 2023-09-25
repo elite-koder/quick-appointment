@@ -21,7 +21,6 @@ def create_slot(request):
     elif request.method == "POST":
         start_time = timezone.datetime.strptime(request.POST.get('start_time'), '%d/%m/%Y %I:%M %p')
         end_time = timezone.datetime.strptime(request.POST.get('end_time'), '%d/%m/%Y %I:%M %p')
-        print(request.user, start_time, end_time)
         try:
             SlotService().create_slot(request.user, start_time, end_time)
             messages.success(request, "Hurrah!!! Slot added successfully")
